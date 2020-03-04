@@ -113,7 +113,7 @@ const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda
 
 ### Average
 
-`.average()` returns the average for an array. \_Note: This will return NaN if all items in an array are not numbers
+`.average()` returns the average for an array. _Note: This will return NaN if all items in an array are not numbers_
 
 ```
 const projectGrades = [90, 100, 80, 100, 100];
