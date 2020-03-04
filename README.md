@@ -1,6 +1,6 @@
 # Custom Array Methods
 
-Just some useful custom array methods added to the array prototype. Please submit any other useful array method contributions.
+Just some useful custom array methods added to the array prototype. Please submit any other useful array methods you create.
 
 ## Methods
 
