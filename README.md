@@ -1,5 +1,7 @@
 # Array Friend
 
+A lightweight module to enhance JavaScript's array functionality.
+
 ## Installation
 
 `npm i arrayfriend`
@@ -21,7 +23,7 @@ choices.shuffle(); // [30, 50, 10, 40, 20]
 Optionally, invoke the `.protos()` method to expose all arrays to the extended methods.
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const choices = [10, 20, 30, 40, 50];
 
@@ -35,10 +37,10 @@ choices.shuffle(); // [30, 50, 10, 40, 20]
 
 `.shuffle()` will randomize the order of an array using the [Fisher–Yates shuffle Algorithm](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
 
-#### Example
+###### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const unshuffled = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, like [8,3,4,2,10,5,1,9,6,7]
@@ -48,10 +50,10 @@ const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, l
 
 `.removeDuplicates()` will remove duplicate items from an array
 
-#### Example
+###### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const users = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
 const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "Amanda", "Mary"]
@@ -61,14 +63,14 @@ const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "A
 
 `.batch(limit)` will batch an array's elements into several nested arrays of a specified length.
 
-#### Parameters
+##### Parameters
 
 - `limit` _(Integer)_ - Length of batch
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const unbatched = ["Justin", "Amanda", "Mary", "Kelly", "Jonathan", "Tom"];
 const batched = unbatched.batch(2); // Expected: [["Justin", "Amanda"], [ "Mary", "Kelly"], ["Jonathan", "Tom"]]
@@ -78,10 +80,10 @@ const batched = unbatched.batch(2); // Expected: [["Justin", "Amanda"], [ "Mary"
 
 `.copy()` will create a [Shallow Copy](https://we-are.bookmyshow.com/understanding-deep-and-shallow-copy-in-javascript-13438bad941c) of an array
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const words = ["foo", "bar", "baz"];
 const wordsCopy = words.copy(); // Expected: ["foo", "bar", "baz"]
@@ -91,10 +93,10 @@ const wordsCopy = words.copy(); // Expected: ["foo", "bar", "baz"]
 
 `.deepCopy()` will make a [Deep Copy](https://flaviocopes.com/how-to-clone-javascript-object/#deep-copy-vs-shallow-copy) of an array. This means objects or nested arrays will be replaced with replicated values, without referencing the original array. Changes can be made of the copied array without changing the original array.
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const original = [
   { foo: "bar", foobar: ["foo", "bar"] },
@@ -119,10 +121,10 @@ console.log(original[0].foo === copied[0].foo); // Expected: false
 
 `.random()` will return a random item in the array
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const words = ["foo", "bar", "baz"];
 words.random(); // Expected: ["bar"]
@@ -132,10 +134,10 @@ words.random(); // Expected: ["bar"]
 
 `.randomIndex()` returns a random index in the array
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const words = ["foo", "bar", "baz"];
 words.randomIndex(); // Expected: 2
@@ -145,14 +147,14 @@ words.randomIndex(); // Expected: 2
 
 `.countOf(val)` will return a count of all items in an array matching a specified value.
 
-#### Parameters
+##### Parameters
 
 - `val` _(any)_ - Value to match
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const words = ["foo", "bar", "foo", "foo", "baz"];
 const fooCount = words.countOf("foo"); // Expected: 3
@@ -162,17 +164,17 @@ const fooCount = words.countOf("foo"); // Expected: 3
 
 `.countIf(condition)` will return a count of all items in an array that when passed into a callback function, return true
 
-#### Parameters
+##### Parameters
 
 - `condition` _(Function)_ - Callback function. For checking condition, takes in 3 parameters
   - `item` - _(any)_ Item in the array
   - `index` - **Optional** _(Integer)_ - Current index in the array
   - `arr` - **Optional** _(Array)_ - Current array
 
-#### Example
+##### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const grades = [99, 93, 60, 70, 100, 80, 78, 100, 98, 94];
 const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
@@ -185,7 +187,7 @@ const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
 ### Example
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const logins = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
 const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda"]
@@ -196,7 +198,7 @@ const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda
 `.average()` returns the average for an array. _Note: This will return NaN if all items in an array are not numbers_
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const projectGrades = [90, 100, 80, 100, 100];
 const averageGrage = projectGrades.average(); // Expected: 94
@@ -206,14 +208,14 @@ const averageGrage = projectGrades.average(); // Expected: 94
 
 `.partialMatch(obj)` finds the first item matching the key/value pairs of the object passed in.
 
-#### Parameters
+##### Parameters
 
 - `obj` _(Object)_ - Object containing key/value pairs of array item to find
 
-#### Examples
+##### Examples
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const users = [
   {
@@ -246,14 +248,14 @@ const person = users.partialMatch({ email: "jdoe@ymail.com" });
 
 `.partialMatch(obj)` finds the first index matching the key/value pairs of the object passed in.
 
-#### Parameters
+##### Parameters
 
 - `obj` _(Object)_ - Object containing key/value pairs of array item to find
 
-#### Examples
+##### Examples
 
 ```js
-require("arrayfriend").proptos();
+require("arrayfriend").protos();
 
 const users = [
   {
