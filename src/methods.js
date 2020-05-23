@@ -41,6 +41,14 @@ methods.batch = function (limit = this.length) {
 };
 
 /**
+ * Creates shallow copy of array
+ * [3,2,1].copy() --> [3,2,1]
+ */
+methods.copy = function () {
+  return [...this];
+};
+
+/**
  * Creates a deep copy of an array
  */
 methods.deepCopy = function () {
@@ -97,6 +105,30 @@ methods.onlyDuplicates = function () {
 };
 
 /**
+ * Finds last item in array
+ * ["foo", "bar","baz"].last() --> "baz"
+ */
+methods.last = function () {
+  return this[this.length - 1];
+};
+
+/**
+ * Finds a random item in the array
+ * ["foo", "bar","baz"].random() --> "bar"
+ */
+methods.random = function () {
+  return this[Math.floor(Math.random() * this.length)];
+};
+
+/**
+ * Finds a random index in the array
+ * ["foo", "bar","baz"].randomIndex() --> 2
+ */
+methods.randomIndex = function () {
+  return Math.floor(Math.random() * this.length);
+};
+
+/**
  * Find averages for array
  * [1,2,3,3,1].average() --> 2
  */
@@ -120,4 +152,5 @@ methods.partialMatch = function (obj = {}) {
 methods.partialMatchIndex = function (obj = {}) {
   return this.findIndex((x) => Object.keys(obj).every((k) => x[k] === obj[k]));
 };
+
 module.exports = methods;

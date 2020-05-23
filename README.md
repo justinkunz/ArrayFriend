@@ -9,10 +9,10 @@
 Import the wrapper from the module to use the extended methods without exposing the prototypes to standard arrays
 
 ```js
-const _array = require("arrayfriend");
+const $ = require("arrayfriend");
 
 // Wrap array in wrapper
-const choices = _array([10, 20, 30, 40, 50]);
+const choices = $(10, 20, 30, 40, 50);
 
 // Access custom array methods
 choices.shuffle(); // [30, 50, 10, 40, 20]
@@ -38,6 +38,8 @@ choices.shuffle(); // [30, 50, 10, 40, 20]
 #### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const unshuffled = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, like [8,3,4,2,10,5,1,9,6,7]
 ```
@@ -49,6 +51,8 @@ const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, l
 #### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const users = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
 const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "Amanda", "Mary"]
 ```
@@ -64,8 +68,23 @@ const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "A
 #### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const unbatched = ["Justin", "Amanda", "Mary", "Kelly", "Jonathan", "Tom"];
 const batched = unbatched.batch(2); // Expected: [["Justin", "Amanda"], [ "Mary", "Kelly"], ["Jonathan", "Tom"]]
+```
+
+### Copy
+
+`.copy()` will create a [Shallow Copy](https://we-are.bookmyshow.com/understanding-deep-and-shallow-copy-in-javascript-13438bad941c) of an array
+
+#### Example
+
+```js
+require("arrayfriend").proptos();
+
+const words = ["foo", "bar", "baz"];
+const wordsCopy = words.copy(); // Expected: ["foo", "bar", "baz"]
 ```
 
 ### Deep Copy
@@ -75,6 +94,8 @@ const batched = unbatched.batch(2); // Expected: [["Justin", "Amanda"], [ "Mary"
 #### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const original = [
   { foo: "bar", foobar: ["foo", "bar"] },
   { bar: "foo", barfoo: ["bar", "foo"] },
@@ -94,6 +115,32 @@ copied[0].foo = "baz";
 console.log(original[0].foo === copied[0].foo); // Expected: false
 ```
 
+### Random
+
+`.random()` will return a random item in the array
+
+#### Example
+
+```js
+require("arrayfriend").proptos();
+
+const words = ["foo", "bar", "baz"];
+words.random(); // Expected: ["bar"]
+```
+
+### Random Index
+
+`.randomIndex()` returns a random index in the array
+
+#### Example
+
+```js
+require("arrayfriend").proptos();
+
+const words = ["foo", "bar", "baz"];
+words.randomIndex(); // Expected: 2
+```
+
 ### Count Of
 
 `.countOf(val)` will return a count of all items in an array matching a specified value.
@@ -105,6 +152,8 @@ console.log(original[0].foo === copied[0].foo); // Expected: false
 #### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const words = ["foo", "bar", "foo", "foo", "baz"];
 const fooCount = words.countOf("foo"); // Expected: 3
 ```
@@ -123,6 +172,8 @@ const fooCount = words.countOf("foo"); // Expected: 3
 #### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const grades = [99, 93, 60, 70, 100, 80, 78, 100, 98, 94];
 const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
 ```
@@ -134,6 +185,8 @@ const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
 ### Example
 
 ```js
+require("arrayfriend").proptos();
+
 const logins = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
 const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda"]
 ```
@@ -143,6 +196,8 @@ const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda
 `.average()` returns the average for an array. _Note: This will return NaN if all items in an array are not numbers_
 
 ```js
+require("arrayfriend").proptos();
+
 const projectGrades = [90, 100, 80, 100, 100];
 const averageGrage = projectGrades.average(); // Expected: 94
 ```
@@ -158,6 +213,8 @@ const averageGrage = projectGrades.average(); // Expected: 94
 #### Examples
 
 ```js
+require("arrayfriend").proptos();
+
 const users = [
   {
     firstName: "Jon",
@@ -196,6 +253,8 @@ const person = users.partialMatch({ email: "jdoe@ymail.com" });
 #### Examples
 
 ```js
+require("arrayfriend").proptos();
+
 const users = [
   {
     firstName: "Jon",
