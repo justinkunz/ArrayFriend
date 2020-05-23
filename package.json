@@ -1,0 +1,21 @@
+{
+  "name": "arrayfriend",
+  "version": "0.0.1",
+  "description": "Extended array methods",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justinkunz/ArrayFriend"
+  },
+  "keywords": [
+    "array",
+    "prototypes",
+    "array methods"
+  ],
+  "author": "Justin Kunz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/justinkunz/ArrayFriend/issues"
+  },
+  "homepage": "https://github.com/justinkunz/ArrayFriend#readme"
+}

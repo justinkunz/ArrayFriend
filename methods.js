@@ -1,8 +1,10 @@
+const methods = {};
+
 /**
  * Shuffle array order
  * [1,2,3,4].randomize() --> [3,1,4,2]
  */
-Array.prototype.shuffle = function() {
+methods.shuffle = function () {
   const arr = [...this];
   for (let i = 0; i < arr.length; i++) {
     const switchPosition = Math.floor(Math.random() * arr.length);
@@ -17,7 +19,7 @@ Array.prototype.shuffle = function() {
  * Remove duplicate values from array
  * [1,2,2,3,3,4].removeDuplicates() --> [1,2,3,4]
  */
-Array.prototype.removeDuplicates = function() {
+methods.removeDuplicates = function () {
   return Array.from(new Set(this));
 };
 
@@ -25,7 +27,7 @@ Array.prototype.removeDuplicates = function() {
  * Batch / Nest Arrays
  * [1,2,3,4,5,6].batch(3) --> [[1,2,3], [4,5,6]]
  */
-Array.prototype.batch = function(limit = this.length) {
+methods.batch = function (limit = this.length) {
   const len = Math.ceil(this.length / limit);
 
   let start = 0;
@@ -39,13 +41,10 @@ Array.prototype.batch = function(limit = this.length) {
 };
 
 /**
- * Deep Copies strictly copy values, not
+ * Creates a deep copy of an array
  */
-Array.prototype.deepCopy = function() {
-  const arr = [];
-  for (let i = 0; i < this.length; i++) {
-    arr.push(createCopy(this[i]));
-  }
+methods.deepCopy = function () {
+  return [...this].map((a) => createCopy(a));
 
   function createCopy(itm) {
     switch (typeof itm) {
@@ -67,23 +66,21 @@ Array.prototype.deepCopy = function() {
 
     return copiedObj;
   }
-
-  return arr;
 };
 
 /**
  * Find number of occurances in array
  * ["foo", "bar", "foo"].countOf("foo") --> 2
  */
-Array.prototype.countOf = function(itm) {
-  return this.filter(e => e === itm).length;
+methods.countOf = function (itm) {
+  return this.filter((e) => e === itm).length;
 };
 
 /**
  * Find count on callback condition
  * [1,2,3,4,5,6].countIf(num => num % 2 === 0) --> 4
  */
-Array.prototype.countIf = function(condition) {
+methods.countIf = function (condition) {
   let count = 0;
   for (let i = 0; i < this.length; i++) {
     if (condition(this[i], i, this)) count++;
@@ -95,7 +92,7 @@ Array.prototype.countIf = function(condition) {
  * Find only duplicate values
  * [1,2,2,3,3,4].onlyDuplicates() --> [2,3]
  */
-Array.prototype.onlyDuplicates = function() {
+methods.onlyDuplicates = function () {
   return this.filter((ele, i) => this.indexOf(ele) !== i);
 };
 
@@ -103,7 +100,24 @@ Array.prototype.onlyDuplicates = function() {
  * Find averages for array
  * [1,2,3,3,1].average() --> 2
  */
-Array.prototype.average = function() {
+methods.average = function () {
   if (this.length === 0) return 0;
   return this.reduce((a, c) => a + c) / this.length;
 };
+
+/**
+ * Takes in an object, finds first item matching object keys
+ * [{a: 'foo', b: 'bar'},{a: 'zoo', b: 'zab'}].partialMatch({ a: 'foo' }) --> {a: 'foo', b: 'bar'}
+ */
+methods.partialMatch = function (obj = {}) {
+  return this.find((x) => Object.keys(obj).every((k) => x[k] === obj[k]));
+};
+
+/**
+ * Same as partialMatch, but returns index
+ * [{a: 'foo', b: 'bar'},{a: 'zoo', b: 'zab'}].partialMatch({ a: 'foo' }) --> 0
+ */
+methods.partialMatchIndex = function (obj = {}) {
+  return this.findIndex((x) => Object.keys(obj).every((k) => x[k] === obj[k]));
+};
+module.exports = methods;
