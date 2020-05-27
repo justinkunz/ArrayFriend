@@ -2,13 +2,13 @@
 
 A lightweight module to enhance JavaScript's array functionality.
 
-## Installation
+```
+npm i arrayfriend
+```
 
-`npm i arrayfriend`
+## Creating a New Array
 
-## Usage
-
-Import the wrapper from the module to use the extended methods without exposing the prototypes to standard arrays
+Import the wrapper from the module to use the extended methods without exposing the methods to standard arrays
 
 ```js
 const $ = require("arrayfriend");
@@ -19,6 +19,26 @@ const choices = $(10, 20, 30, 40, 50);
 // Access custom array methods
 choices.shuffle(); // [30, 50, 10, 40, 20]
 ```
+
+To create a new iterable ArrayFriend Array of a set length without specifying the values contained, use the `.withLength(n)` method of the ArrayFriend module.
+
+```js
+const $ = require("arrayfriend");
+
+// Using .withLength() to create an iterable array with a length of 5
+const arr = $.withLength(5); // Expected: [undefined, undefined, undefined, undefined, undefined]
+
+// Able to access standard array methods
+// Set each item in the array to a random value between 1 and 3
+const randomValues = arr.map(() => Math.floor(Math.random() * 3) + 1);
+
+console.log(randomValues); // Example: [ 3, 1, 2, 1, 2 ]
+
+// Also able to access ArrayFriend methods
+randomValues.countOf(1); // Expected: 2
+```
+
+## Extending Prototypes
 
 Optionally, invoke the `.protos()` method to expose all arrays to the extended methods.
 
@@ -31,7 +51,9 @@ const choices = [10, 20, 30, 40, 50];
 choices.shuffle(); // [30, 50, 10, 40, 20]
 ```
 
-## Methods
+## ArrayFriend Methods
+
+NOTE: The examples for these methods utilize the `.protos()` functionality to expose the methods to all arrays, though this functionality can also be accomplished using the ArrayFriend wrapper.
 
 ### Shuffle
 
@@ -57,6 +79,19 @@ require("arrayfriend").protos();
 
 const users = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
 const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "Amanda", "Mary"]
+```
+
+### Only Duplicates
+
+`.onlyDuplicates()` filters an array to include only items whose values appear more than once in the array.
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const logins = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
+const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda"]
 ```
 
 ### Batch
@@ -180,17 +215,59 @@ const grades = [99, 93, 60, 70, 100, 80, 78, 100, 98, 94];
 const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
 ```
 
-### Only Duplicates
+### Last
 
-`.onlyDuplicates()` filters an array to include only items whose values appear more than once in the array.
+`.last()` returns the last item in the array
 
-### Example
+##### Example
 
 ```js
 require("arrayfriend").protos();
 
-const logins = ["Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"];
-const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda"]
+const users = ["Jack", "Jill", "Bob", "Joe"];
+const lastUser = users.last(); // Expected: Joe
+```
+
+### Ascending
+
+`.ascending()` sorts the array in ascending order
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const grades = [99, 93, 60, 70, 100, 80, 78, 100, 98, 94];
+const worstToBest = grades.ascending(); // Expected: [60, 70, 78, 80, 93,94, 98, 99, 100, 100]
+```
+
+### Descending
+
+`.descending()` sorts the array in descending order
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const grades = [99, 93, 60, 70, 100, 80, 78, 100, 98, 94];
+const bestToWorst = grades.descending(); // Expected: [100, 100, 99, 98, 94, 93, 80, 78, 70, 60]
+```
+
+### Is Empty
+
+`.isEmpty()` is a simple method that returns true if the specified array's length is 0.
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const arr1 = [];
+const arr2 = ["foo", "bar", "baz"];
+
+console.log(arr1.isEmpty()); // Expected: true
+console.log(arr2.isEmpty()); // Expected: false
 ```
 
 ### Average
@@ -276,4 +353,30 @@ const users = [
 ];
 
 const person = users.partialMatchIndex({ email: "jdoe@ymail.com" }); // Expected: 1
+```
+
+### Remove Null Values
+
+`.removeNullValues()` will remove any `null`, `undefined`, empty string values from the array. _Note: This does not remove any `false` or `NaN` values_
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const arr1 = [
+  3,
+  4,
+  "foo",
+  "bar",
+  null,
+  "baz",
+  false,
+  "foobar",
+  NaN,
+  undefined,
+  "",
+];
+
+const cleaned = arr1.removeNullValues(); // Expected: [ 3, 4, 'foo', 'bar', 'baz', false, 'foobar', NaN ]
 ```

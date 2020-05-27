@@ -138,6 +138,13 @@ methods.average = function () {
 };
 
 /**
+ * Removes null, undefined and empty string values from array
+ */
+methods.removeNullValues = function () {
+  return this.filter((x) => x !== null && x !== undefined && x !== "");
+};
+
+/**
  * Takes in an object, finds first item matching object keys
  * [{a: 'foo', b: 'bar'},{a: 'zoo', b: 'zab'}].partialMatch({ a: 'foo' }) --> {a: 'foo', b: 'bar'}
  */
@@ -151,6 +158,27 @@ methods.partialMatch = function (obj = {}) {
  */
 methods.partialMatchIndex = function (obj = {}) {
   return this.findIndex((x) => Object.keys(obj).every((k) => x[k] === obj[k]));
+};
+
+/**
+ * Returns boolean indicating if array is empty
+ */
+methods.isEmpty = function () {
+  return this.length === 0;
+};
+
+/**
+ * Sorts array in ascending order
+ */
+methods.ascending = function () {
+  return this.sort((a, b) => a - b);
+};
+
+/**
+ * Sorts array in descending order
+ */
+methods.descending = function () {
+  return this.sort((a, b) => b - a);
 };
 
 module.exports = methods;
