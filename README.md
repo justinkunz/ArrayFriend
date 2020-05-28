@@ -55,6 +55,27 @@ choices.shuffle(); // [30, 50, 10, 40, 20]
 
 NOTE: The examples for these methods utilize the `.protos()` functionality to expose the methods to all arrays, though this functionality can also be accomplished using the ArrayFriend wrapper.
 
+### ArrayFriend Methods
+
+- [Shuffle](#shuffle)
+- [Remove Duplicates](#remove-duplicates)
+- [Only Duplicates](#only-duplicates)
+- [Batch](#batch)
+- [Copy](#copy)
+- [Deep Copy](#deep-copy)
+- [Random](#random)
+- [Random Index](#random-index)
+- [Count Of](#count-of)
+- [Count If](#count-if)
+- [Last](#last)
+- [Ascending](#ascending)
+- [Descending](#descending)
+- [Is Empty](#is-empty)
+- [Average](#average)
+- [Partial Match](#partial-match)
+- [Partial Match Index](#partial-match-index)
+- [Remove Null Values](#remove-null-values)
+
 ### Shuffle
 
 `.shuffle()` will randomize the order of an array using the [Fisher–Yates shuffle Algorithm](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
