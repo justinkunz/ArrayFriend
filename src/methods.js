@@ -1,4 +1,4 @@
-const methods = {};
+const methods = module.exports;
 
 /**
  * Shuffle array order
@@ -129,19 +129,17 @@ methods.randomIndex = function () {
 };
 
 /**
- * Find averages for array
- * [1,2,3,3,1].average() --> 2
- */
-methods.average = function () {
-  if (this.length === 0) return 0;
-  return this.reduce((a, c) => a + c) / this.length;
-};
-
-/**
  * Removes null, undefined and empty string values from array
  */
 methods.removeNullValues = function () {
   return this.filter((x) => x !== null && x !== undefined && x !== "");
+};
+
+/**
+ * Removes all falsey values
+ */
+methods.removeFalsyValues = function () {
+  return this.filter((x) => !!x);
 };
 
 /**
@@ -168,6 +166,13 @@ methods.isEmpty = function () {
 };
 
 /**
+ * Inserts items into specified index in array
+ */
+methods.insertAt = function (index, ...items) {
+  return [...this.slice(0, index), ...items, ...this.slice(index + 1)];
+};
+
+/**
  * Sorts array in ascending order
  */
 methods.ascending = function () {
@@ -181,4 +186,96 @@ methods.descending = function () {
   return this.sort((a, b) => b - a);
 };
 
-module.exports = methods;
+/**
+ * Finds sum of numeric array
+ */
+methods.sum = function () {
+  return this.reduce((a, c) => a + c);
+};
+
+methods.difference = function () {
+  return this.reduce((a, c) => a - c);
+};
+
+methods.product = function () {
+  return this.reduce((a, c) => a * c);
+};
+
+methods.quotient = function () {
+  return this.reduce((a, c) => a / c);
+};
+
+/**
+ * Find averages for array
+ * [1,2,3,3,1].average() --> 2
+ */
+methods.mean = function () {
+  if (this.length === 0) return 0;
+  return this.reduce((a, c) => a + c) / this.length;
+};
+
+/**
+ * Finds median of array
+ */
+methods.median = function () {
+  return this.length % 2 === 0
+    ? (this[this.length / 2 - 1] + this[this.length / 2]) / 2
+    : this[Math.floor(this.length / 2)];
+};
+
+/**
+ * Finds mode in array
+ */
+methods.mode = function () {
+  const lens = this.map((item) => this.filter((n) => n === item).length);
+  return this[lens.indexOf(Math.max(...lens))];
+};
+
+/**
+ * Replace all items matching specified value with new value
+ */
+methods.replace = function (oldVal, newVal) {
+  return this.map((val) => (val === oldVal ? newVal : val));
+};
+
+/**
+ * Filter array to only specified type
+ */
+methods.filterType = function (type) {
+  return this.filter((item) => typeof item === type);
+};
+
+/**
+ * Get types of array
+ */
+methods.types = function () {
+  return this.map((item) => typeof item);
+};
+
+/**
+ * Convert all array items to string
+ */
+methods.toStr = function () {
+  return this.map((item) => (typeof item === "object" ? JSON.stringify(item) : item.toString()));
+};
+
+/**
+ * Converts all array items to number
+ */
+methods.toNum = function (base = 10) {
+  return this.map((item) => parseInt(item, base));
+};
+
+/**
+ * Filters array to only even indexes
+ */
+methods.even = function () {
+  return this.filter((n, i) => i % 2 === 0);
+};
+
+/**
+ * Filters array to only odd indexes
+ */
+methods.odd = function () {
+  return this.filter((n, i) => i % 2 !== 0);
+};

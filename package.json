@@ -1,6 +1,6 @@
 {
   "name": "arrayfriend",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Extended array methods",
   "main": "src/index.js",
   "repository": {

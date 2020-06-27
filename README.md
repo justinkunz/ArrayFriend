@@ -75,6 +75,22 @@ NOTE: The examples for these methods utilize the `.protos()` functionality to ex
 - [Partial Match](#partial-match)
 - [Partial Match Index](#partial-match-index)
 - [Remove Null Values](#remove-null-values)
+- [Remove Falsy Values](#remove-falsy-values)
+- [Insert At](#insert-at)
+- [Sum](#sum)
+- [Difference](#difference)
+- [Product](#product)
+- [Quotient](#quotient)
+- [Mean](#mean)
+- [Median](#median)
+- [Mode](#mode)
+- [Replace](#replace)
+- [Filter Type](#filter-type)
+- [Types](#types)
+- [To Str](#to-str)
+- [To Num](#to-num)
+- [Even](#even)
+- [Odd](#odd)
 
 ### Shuffle
 
@@ -385,19 +401,160 @@ const person = users.partialMatchIndex({ email: "jdoe@ymail.com" }); // Expected
 ```js
 require("arrayfriend").protos();
 
-const arr1 = [
-  3,
-  4,
-  "foo",
-  "bar",
-  null,
-  "baz",
-  false,
-  "foobar",
-  NaN,
-  undefined,
-  "",
-];
+const arr1 = [3, 4, "foo", "bar", null, "baz", false, "foobar", NaN, undefined, ""];
 
 const cleaned = arr1.removeNullValues(); // Expected: [ 3, 4, 'foo', 'bar', 'baz', false, 'foobar', NaN ]
 ```
+
+### Remove Falsy Values
+
+`.removeFalsyValues()` will remove any falsy values from the array
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const arr1 = [3, 4, "foo", "bar", null, "baz", false, "foobar", NaN, undefined, ""];
+
+const cleaned = arr1.removeFalsyValues(); // Expected: [ 3, 4, 'foo', 'bar', 'baz', 'foobar']
+```
+
+### Insert At
+
+`.insertAt()` inserts item(s) after a specified index in array.
+
+##### Example
+
+```js
+require("arrayfriend").protos();
+
+const arr1 = ["Jon", "Jack", "Jill"];
+arr1.insertAt(1, "Justin", "Joe"); // Expected: ['Jon', 'Jack', 'Justin', 'Joe', 'Jill']
+```
+
+### Sum
+
+`.sum()` returns the sum of all items in a numerical array.
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 30];
+nums.sum(); // Expected: 60
+```
+
+### Difference
+
+`.difference()` returns the difference of all items in a numerical array.
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 30];
+nums.difference(); // Expected: -40
+```
+
+### Product
+
+`.product()` returns the product of all items in a numerical array.
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 30];
+nums.product(); // Expected: 6000
+```
+
+### Quotient
+
+`.quotient()` returns the quotient of all items in a numerical array.
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 30];
+nums.quotient(); // Expected: 0.016666666666666666
+```
+
+### Mean
+
+`.mean()` returns the average of all items in the array
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 50, 100];
+nums.mean(); // Expected: 45
+```
+
+### Median
+
+`.median()` returns the median of all items in the array
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 30, 50, 100];
+nums.median(); // Expected: 30
+```
+
+### Mode
+
+`.mode()` returns the mode of the array
+
+```js
+require("arrayfriend").protos();
+
+const nums = [10, 20, 20, 30, 50, 100];
+nums.mode(); // Expected: 20
+```
+
+### Replace
+
+###### beta
+
+`.replace()`
+_Documentation Pending_
+
+### Filter Type
+
+###### beta
+
+`.filterType()`
+_Documentation Pending_
+
+### Types
+
+###### beta
+
+`.types()`
+_Documentation Pending_
+
+### To Str
+
+###### beta
+
+`.toStr()`
+_Documentation Pending_
+
+### To Num
+
+###### beta
+
+`.toNum()`
+_Documentation Pending_
+
+### Even
+
+###### beta
+
+`.even()`
+_Documentation Pending_
+
+### Odd
+
+###### beta
+
+`.odd()`
+_Documentation Pending_
