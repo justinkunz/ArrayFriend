@@ -242,7 +242,32 @@ methods.replace = function (oldVal, newVal) {
  * Filter array to only specified type
  */
 methods.filterType = function (type) {
-  return this.filter((item) => typeof item === type);
+  const VALID_TYPES = [
+    "string",
+    "number",
+    "null",
+    "undefined",
+    "boolean",
+    "symbol",
+    "function",
+    "object",
+    "array",
+    "objectOnly",
+  ];
+
+  if (!VALID_TYPES.includes(type))
+    throw `Invalid type: "${type}". Allowed types: \n${VALID_TYPES.join("\n")}`;
+
+  switch (type) {
+    case "array":
+      return this.filter((item) => Array.isArray(item));
+    case "null":
+      return this.filter((item) => item === null); // Strictly compared since typeof null is object
+    case "objectOnly":
+      return this.filter((item) => typeof item === "object" && !Array.isArray(item));
+    default:
+      return this.filter((item) => typeof item === type);
+  }
 };
 
 /**
@@ -256,7 +281,14 @@ methods.types = function () {
  * Convert all array items to string
  */
 methods.toStr = function () {
-  return this.map((item) => (typeof item === "object" ? JSON.stringify(item) : item.toString()));
+  return this.map((item) => {
+    const itemType = typeof item;
+    if (itemType === "string") return item;
+
+    return itemType !== "object" && !!item && typeof item.toString === "function"
+      ? item.toString()
+      : JSON.stringify(item);
+  });
 };
 
 /**
@@ -278,4 +310,71 @@ methods.even = function () {
  */
 methods.odd = function () {
   return this.filter((n, i) => i % 2 !== 0);
+};
+
+/**
+ * Deep check if two arrays are equal
+ */
+methods.assert = function (copy) {
+  function isEqual(i1, i2) {
+    const t1 = Array.isArray(i1) ? "array" : typeof i1;
+    const t2 = Array.isArray(i2) ? "array" : typeof i2;
+
+    if (t1 !== t2) return false;
+
+    switch (t1) {
+      case "object":
+        return isEqualObject(i1, i2);
+      case "array":
+        return isArrayEqual(i1, i2);
+      case "function":
+      case "symbol":
+        return true;
+      default:
+        // number, boolean, string, undefined
+        return i1 === i2;
+    }
+  }
+
+  function isEqualObject(o1, o2) {
+    if (Object.keys(o1).length !== Object.keys(o2).length) return false;
+
+    return Object.keys(o1)
+      .map((k) => isEqual(o1[k], o2[k]))
+      .every((result) => !!result);
+  }
+
+  function isArrayEqual(og, copy) {
+    return og.map((item, index) => isEqual(item, copy[index])).every((result) => !!result);
+  }
+
+  return isArrayEqual(this, copy);
+};
+
+methods.toObject = function (cb = false) {
+  function convert(arr) {
+    return arr.reduce((a, c) => {
+      a[c.key] = c.value;
+      return a;
+    }, {});
+  }
+
+  function doesQualify(arr) {
+    return arr.every(
+      (item) =>
+        typeof item === "object" && item.hasOwnProperty("key") && item.hasOwnProperty("value")
+    );
+  }
+
+  if (!cb) {
+    if (!doesQualify(this))
+      throw 'When no callback fn is passed, each array item must be an object containing a "key" and a "value" property';
+    return convert(this);
+  }
+
+  const cbResponse = this.map(cb);
+  if (!doesQualify(cbResponse)) {
+    throw 'Each item returned from callback fn must be an object containing a "key" and a "value" property';
+  }
+  return convert(cbResponse);
 };

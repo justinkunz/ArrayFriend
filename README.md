@@ -57,46 +57,95 @@ NOTE: The examples for these methods utilize the `.protos()` functionality to ex
 
 ### ArrayFriend Methods
 
+##### Useful Methods
+
 - [Shuffle](#shuffle)
+- [Batch](#batch)
+- [Insert At](#insert-at)
+- [Replace](#replace)
+- [Is Empty](#is-empty)
+- [Last](#last)
+
+##### Duplicate Management
+
 - [Remove Duplicates](#remove-duplicates)
 - [Only Duplicates](#only-duplicates)
-- [Batch](#batch)
+
+##### Copies
+
 - [Copy](#copy)
 - [Deep Copy](#deep-copy)
+
+##### Random
+
 - [Random](#random)
 - [Random Index](#random-index)
+
+##### Counts
+
 - [Count Of](#count-of)
 - [Count If](#count-if)
-- [Last](#last)
+
+##### Sorting
+
 - [Ascending](#ascending)
 - [Descending](#descending)
-- [Is Empty](#is-empty)
-- [Average](#average)
+
+##### Querying
+
 - [Partial Match](#partial-match)
 - [Partial Match Index](#partial-match-index)
-- [Remove Null Values](#remove-null-values)
-- [Remove Falsy Values](#remove-falsy-values)
-- [Insert At](#insert-at)
+
+##### Math
+
 - [Sum](#sum)
 - [Difference](#difference)
 - [Product](#product)
 - [Quotient](#quotient)
 - [Mean](#mean)
+- [Average](#average)
 - [Median](#median)
 - [Mode](#mode)
-- [Replace](#replace)
+
+##### Type Management
+
 - [Filter Type](#filter-type)
 - [Types](#types)
 - [To Str](#to-str)
 - [To Num](#to-num)
+
+##### Filtering
+
 - [Even](#even)
 - [Odd](#odd)
+- [Remove Null Values](#remove-null-values)
+- [Remove Falsy Values](#remove-falsy-values)
+
+##### Comparing
+
+- [Assert](#assert)
+
+##### Conversion
+
+- [To Object](#to-object)
 
 ### Shuffle
 
 `.shuffle()` will randomize the order of an array using the [Fisher–Yates shuffle Algorithm](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
 
-###### Example
+##### Example
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const unsuffled = $(...options); // Use the spread operator to pass in an existing array
+const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, like [8,3,4,2,10,5,1,9,6,7]
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -109,7 +158,18 @@ const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, l
 
 `.removeDuplicates()` will remove duplicate items from an array
 
-###### Example
+##### Example
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const users = $("Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda"); // Pass values directly into the wrapper
+const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "Amanda", "Mary"]
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -123,6 +183,17 @@ const uniqueUsers = users.removeDuplicates(); // Expected: ["Justin", "Jack", "A
 `.onlyDuplicates()` filters an array to include only items whose values appear more than once in the array.
 
 ##### Example
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const logins = $("Justin", "Justin", "Jack", "Amanda", "Mary", "Amanda");
+const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda"]
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -141,6 +212,17 @@ const duplicateLogins = logins.onlyDuplicates(); // Expected: ["Justin", "Amanda
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const unbatched = ["Justin", "Amanda", "Mary", "Kelly", "Jonathan", "Tom"];
+const batched = $(...unbatched).batch(2); // Expected: [["Justin", "Amanda"], [ "Mary", "Kelly"], ["Jonathan", "Tom"]]
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -154,6 +236,17 @@ const batched = unbatched.batch(2); // Expected: [["Justin", "Amanda"], [ "Mary"
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const words = $("foo", "bar", "baz");
+const wordsCopy = words.copy(); // Expected: ["foo", "bar", "baz"]
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -166,6 +259,32 @@ const wordsCopy = words.copy(); // Expected: ["foo", "bar", "baz"]
 `.deepCopy()` will make a [Deep Copy](https://flaviocopes.com/how-to-clone-javascript-object/#deep-copy-vs-shallow-copy) of an array. This means objects or nested arrays will be replaced with replicated values, without referencing the original array. Changes can be made of the copied array without changing the original array.
 
 ##### Example
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const original = $(
+  { foo: "bar", foobar: ["foo", "bar"] },
+  { bar: "foo", barfoo: ["bar", "foo"] },
+  { foobar: ["foo", "bar"] },
+  30,
+  20,
+  "Why does this array have so many types",
+  Symbol(),
+  "Oh yeah, to show you how to it can make a deep copy of any type"
+);
+
+const copied = original.deepCopy(); // Makes a deep copy
+
+// Object reference comparison
+copied[0].foo = "baz";
+
+console.log(original[0].foo === copied[0].foo); // Expected: false
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -195,11 +314,22 @@ console.log(original[0].foo === copied[0].foo); // Expected: false
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const words = $("foo", "bar", "baz");
+words.random(); // Expected Example: "bar"
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
 const words = ["foo", "bar", "baz"];
-words.random(); // Expected: ["bar"]
+words.random(); // Expected Example: "bar"
 ```
 
 ### Random Index
@@ -208,11 +338,22 @@ words.random(); // Expected: ["bar"]
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const words = $("foo", "bar", "baz");
+words.randomIndex(); // Expected Example: 2
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
 const words = ["foo", "bar", "baz"];
-words.randomIndex(); // Expected: 2
+words.randomIndex(); // Expected Example: 2
 ```
 
 ### Count Of
@@ -224,6 +365,17 @@ words.randomIndex(); // Expected: 2
 - `val` _(any)_ - Value to match
 
 ##### Example
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const words = $("foo", "bar", "foo", "foo", "baz");
+const fooCount = words.countOf("foo"); // Expected: 3
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -245,6 +397,17 @@ const fooCount = words.countOf("foo"); // Expected: 3
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const grades = $(99, 93, 60, 70, 100, 80, 78, 100, 98, 94);
+const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -257,6 +420,17 @@ const over90 = grades.countIf((grade) => grade >= 90); // Expected: 6
 `.last()` returns the last item in the array
 
 ##### Example
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const users = $("Jack", "Jill", "Bob", "Joe");
+const lastUser = users.last(); // Expected: Joe
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -271,6 +445,17 @@ const lastUser = users.last(); // Expected: Joe
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const grades = $(99, 93, 60, 70, 100, 80, 78, 100, 98, 94);
+const worstToBest = grades.ascending(); // Expected: [60, 70, 78, 80, 93,94, 98, 99, 100, 100]
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -282,7 +467,18 @@ const worstToBest = grades.ascending(); // Expected: [60, 70, 78, 80, 93,94, 98,
 
 `.descending()` sorts the array in descending order
 
-##### Example
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const grades = $(99, 93, 60, 70, 100, 80, 78, 100, 98, 94);
+const bestToWorst = grades.descending(); // Expected: [100, 100, 99, 98, 94, 93, 80, 78, 70, 60]
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -297,6 +493,26 @@ const bestToWorst = grades.descending(); // Expected: [100, 100, 99, 98, 94, 93,
 
 ##### Example
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+require("arrayfriend").protos();
+
+const arr1 = $();
+const arr2 = $("foo", "bar", "baz");
+
+console.log(arr1.isEmpty()); // Expected: true
+console.log(arr2.isEmpty()); // Expected: false
+
+arr1.push("foobar");
+
+console.log(arr1.isEmpty()); // Expected: false
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -305,17 +521,6 @@ const arr2 = ["foo", "bar", "baz"];
 
 console.log(arr1.isEmpty()); // Expected: true
 console.log(arr2.isEmpty()); // Expected: false
-```
-
-### Average
-
-`.average()` returns the average for an array. _Note: This will return NaN if all items in an array are not numbers_
-
-```js
-require("arrayfriend").protos();
-
-const projectGrades = [90, 100, 80, 100, 100];
-const averageGrage = projectGrades.average(); // Expected: 94
 ```
 
 ### Partial Match
@@ -327,6 +532,40 @@ const averageGrage = projectGrades.average(); // Expected: 94
 - `obj` _(Object)_ - Object containing key/value pairs of array item to find
 
 ##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const users = $(
+  {
+    firstName: "Jon",
+    lastName: "Smith",
+    email: "jon.smith@gmail.com",
+  },
+  {
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "jdoe@ymail.com",
+  },
+  {
+    firstName: "Elon",
+    lastName: "Musk",
+    email: "elon@tesla.com",
+  }
+);
+
+const person = users.partialMatch({ email: "jdoe@ymail.com" });
+// Expected:
+//  {
+//    firstName: "Jane",
+//    lastName: "Doe",
+//    email: "jdoe@ymail.com",
+//  },
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -368,6 +607,34 @@ const person = users.partialMatch({ email: "jdoe@ymail.com" });
 
 ##### Examples
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const users = $(
+  {
+    firstName: "Jon",
+    lastName: "Smith",
+    email: "jon.smith@gmail.com",
+  },
+  {
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "jdoe@ymail.com",
+  },
+  {
+    firstName: "Elon",
+    lastName: "Musk",
+    email: "elon@tesla.com",
+  }
+);
+
+const person = users.partialMatchIndex({ email: "jdoe@ymail.com" }); // Expected: 1
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -396,7 +663,19 @@ const person = users.partialMatchIndex({ email: "jdoe@ymail.com" }); // Expected
 
 `.removeNullValues()` will remove any `null`, `undefined`, empty string values from the array. _Note: This does not remove any `false` or `NaN` values_
 
-##### Example
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr1 = [3, 4, "foo", "bar", null, "baz", false, "foobar", NaN, undefined, ""];
+
+const cleaned = $(...arr1).removeNullValues(); // Expected: [ 3, 4, 'foo', 'bar', 'baz', false, 'foobar', NaN ]
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -410,7 +689,19 @@ const cleaned = arr1.removeNullValues(); // Expected: [ 3, 4, 'foo', 'bar', 'baz
 
 `.removeFalsyValues()` will remove any falsy values from the array
 
-##### Example
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr1 = [3, 4, "foo", "bar", null, "baz", false, "foobar", NaN, undefined, ""];
+
+const cleaned = $(...arr1).removeFalsyValues(); // Expected: [ 3, 4, 'foo', 'bar', 'baz', 'foobar']
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -424,18 +715,42 @@ const cleaned = arr1.removeFalsyValues(); // Expected: [ 3, 4, 'foo', 'bar', 'ba
 
 `.insertAt()` inserts item(s) after a specified index in array.
 
-##### Example
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const users = $("Jon", "Jack", "Jill");
+users.insertAt(1, "Justin", "Joe"); // Expected: ['Jon', 'Jack', 'Justin', 'Joe', 'Jill']
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
 
-const arr1 = ["Jon", "Jack", "Jill"];
-arr1.insertAt(1, "Justin", "Joe"); // Expected: ['Jon', 'Jack', 'Justin', 'Joe', 'Jill']
+const users = ["Jon", "Jack", "Jill"];
+users.insertAt(1, "Justin", "Joe"); // Expected: ['Jon', 'Jack', 'Justin', 'Joe', 'Jill']
 ```
 
 ### Sum
 
 `.sum()` returns the sum of all items in a numerical array.
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const nums = $(10, 20, 30);
+nums.sum(); // Expected: 60
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -448,6 +763,19 @@ nums.sum(); // Expected: 60
 
 `.difference()` returns the difference of all items in a numerical array.
 
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const nums = $(10, 20, 30);
+nums.difference(); // Expected: -40
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -458,6 +786,19 @@ nums.difference(); // Expected: -40
 ### Product
 
 `.product()` returns the product of all items in a numerical array.
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const nums = $(10, 20, 30);
+nums.product(); // Expected: 6000
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -470,6 +811,17 @@ nums.product(); // Expected: 6000
 
 `.quotient()` returns the quotient of all items in a numerical array.
 
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const nums = $(10, 20, 30);
+nums.quotient(); // Expected: 0.016666666666666666
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -479,18 +831,48 @@ nums.quotient(); // Expected: 0.016666666666666666
 
 ### Mean
 
-`.mean()` returns the average of all items in the array
+`.mean()` returns the average for an array. _Note: This will return NaN if all items in an array are not numbers_
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const projectGrades = $(90, 100, 80, 100, 100);
+const averageGrage = projectGrades.average(); // Expected: 94
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
 
-const nums = [10, 20, 50, 100];
-nums.mean(); // Expected: 45
+const projectGrades = [90, 100, 80, 100, 100];
+const averageGrage = projectGrades.average(); // Expected: 94
 ```
+
+### Average
+
+`.average()` is an alternate term for `.mean()`
 
 ### Median
 
 `.median()` returns the median of all items in the array
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const nums = $(10, 20, 30, 50, 100);
+nums.median(); // Expected: 30
+```
+
+###### Extending Prototype
 
 ```js
 require("arrayfriend").protos();
@@ -503,6 +885,19 @@ nums.median(); // Expected: 30
 
 `.mode()` returns the mode of the array
 
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const nums = $(10, 20, 30, 50, 100);
+nums.mode(); // Expected: 20
+```
+
+###### Extending Prototype
+
 ```js
 require("arrayfriend").protos();
 
@@ -512,31 +907,134 @@ nums.mode(); // Expected: 20
 
 ### Replace
 
-###### beta
+`.replace()` replaces all occurances of a specified value with a new value.
 
-`.replace()`
-_Documentation Pending_
+##### Parameters
+
+- `oldVal` _(Any)_ - Value to replace
+- `newVal` _(Any)_ - Replacement value
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr = $("foo", "bar", "foobar", "bar", "foo");
+const noFoo = arr.replace("foo", "baz"); // Expected: ["baz", "bar", "foobar", "bar", "baz"]
+```
+
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const arr = ["foo", "bar", "foobar", "bar", "foo"];
+const noFoo = arr.replace("foo", "baz"); // Expected: ["baz", "bar", "foobar", "bar", "baz"]
+```
 
 ### Filter Type
 
-###### beta
+`.filterType()` filters an array to only a specified type
 
-`.filterType()`
-_Documentation Pending_
+##### Parameters
+
+- `type` _(String)_ - String representing JS type
+
+**Possible Types**
+
+- `"string"`
+- `"number"`
+- `"boolean"`
+- `"undefined"`
+- `"symbol"`
+- `"function"`
+- `"object"` - Returns all JS object types _(objects, arrays, functions, null)_
+- `"array"` - Returns only nested arrays
+- `"null"` - Returns only `null` values
+- `"objectOnly"` - Returns only objects without returning arrays
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr = [1, 4, "t", ["nested", 8], { foo: "bar" }, { baz: false }, [1, 2, 3], true, ""];
+const mixed = $(...arr); // Spread syntax can be used to convert an existing array
+
+// Only strings
+const strOnly = mixed.filterType("string"); // Expected: ["t", ""]
+
+// Only arrays
+const nestedArrsOnly = mixed.filterType("array"); // [["nested", 8], [1,2,3]]
+```
+
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const mixed = [1, 4, "t", ["nested", 8], { foo: "bar" }, { baz: false }, [1, 2, 3], true, ""];
+
+// Only strings
+const strOnly = mixed.filterType("string"); // Expected: ["t", ""]
+
+// Only arrays
+const nestedArrsOnly = mixed.filterType("array"); // [["nested", 8], [1,2,3]]
+```
 
 ### Types
 
-###### beta
+`.types()` returns an array of the target array's types.
 
-`.types()`
-_Documentation Pending_
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const mixed = $(1, 4, "t", true, "");
+const types = mixed.types(); // Expected: ["number", "number", "string", "boolean", "string"]
+```
+
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const mixed = $(1, 4, "t", true, "");
+const types = mixed.types(); // Expected: ["number", "number", "string", "boolean", "string"]
+```
 
 ### To Str
 
-###### beta
+`.toStr()` returns an array of a string version of all the items in the array. _Note: Conversion is different depending on type. For example, **objects** and **arrays** will be returned stringified._
 
-`.toStr()`
-_Documentation Pending_
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr = [1, 4, "t", ["nested", 8], { foo: "bar" }, { baz: false }, [1, 2, 3], true];
+const mixed = $(...arr); // Spread syntax can be used to convert an existing array
+
+const strArr = mixed.toStr(); // ['1','4','t','["nested",8]','{"foo":"bar"}','{"baz":false}','[1,2,3]','true']
+```
+
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const mixed = [1, 4, "t", ["nested", 8], { foo: "bar" }, { baz: false }, [1, 2, 3], true];
+const strArr = mixed.toStr(); // ['1','4','t','["nested",8]','{"foo":"bar"}','{"baz":false}','[1,2,3]','true']
+```
 
 ### To Num
 
@@ -557,4 +1055,51 @@ _Documentation Pending_
 ###### beta
 
 `.odd()`
+_Documentation Pending_
+
+### Assert
+
+`.assert()` does a deep compare on an array with any target array - Returning a boolean of if all values and nested values matched.
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const a1 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"];
+const a2 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"];
+
+$(...a1).assert(a2); // Expected: true
+
+const a3 = [{ foo: "baz", bar: 4, baz: false, t: 4 }, [4, 3, 2, 1], "j", 1, true, "i"];
+const a4 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"];
+
+$(...a3).assert(a4); // Expected: false
+```
+
+###### Extending Prototype
+
+```js
+const $ = require("arrayfriend").protos();
+
+const a1 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"];
+const a2 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"];
+
+a1.assert(a2); // Expected: true
+
+const a3 = [{ foo: "baz", bar: 4, baz: false, t: 4 }, [4, 3, 2, 1], "j", 1, true, "i"];
+const a4 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"];
+
+a3.assert(a4); // Expected: false
+```
+
+_Documentation Pending_
+
+### To Object
+
+###### beta
+
+`.toObject()`
 _Documentation Pending_

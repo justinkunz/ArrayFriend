@@ -35,6 +35,8 @@ ArrayFriend.prototype.toStr = methods.toStr;
 ArrayFriend.prototype.toNum = methods.toNum;
 ArrayFriend.prototype.even = methods.even;
 ArrayFriend.prototype.odd = methods.odd;
+ArrayFriend.prototype.assert = methods.assert;
+ArrayFriend.prototype.toObject = methods.toObject;
 
 const arrayFriend = (...arr) => new ArrayFriend(...arr);
 
@@ -73,6 +75,8 @@ arrayFriend.protos = () => {
   Array.prototype.toNum = methods.toNum;
   Array.prototype.even = methods.even;
   Array.prototype.odd = methods.odd;
+  Array.prototype.assert = methods.assert;
+  Array.prototype.toObject = methods.toObject;
 };
 
 arrayFriend.withLength = (n = 0) => new ArrayFriend(...Array.apply(null, Array(n)));
