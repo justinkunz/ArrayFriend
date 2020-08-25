@@ -52,7 +52,9 @@ methods.copy = function () {
  * Creates a deep copy of an array
  */
 methods.deepCopy = function () {
-  return [...this].map((a) => createCopy(a));
+  function handleArray(arr) {
+    return arr.map((a) => createCopy(a));
+  }
 
   function createCopy(itm) {
     switch (typeof itm) {
@@ -65,7 +67,7 @@ methods.deepCopy = function () {
     }
   }
   function handleObject(obj) {
-    if (Array.isArray(obj)) return obj.deepCopy();
+    if (Array.isArray(obj)) return handleArray(obj);
 
     const copiedObj = {};
     for (key in obj) {
@@ -74,6 +76,8 @@ methods.deepCopy = function () {
 
     return copiedObj;
   }
+
+  return handleArray(this);
 };
 
 /**
@@ -176,14 +180,14 @@ methods.insertAt = function (index, ...items) {
  * Sorts array in ascending order
  */
 methods.ascending = function () {
-  return this.sort((a, b) => a - b);
+  return this.sort((a, b) => (a - b > 0 ? 1 : a === b ? 0 : -1));
 };
 
 /**
  * Sorts array in descending order
  */
 methods.descending = function () {
-  return this.sort((a, b) => b - a);
+  return this.sort((a, b) => (b - a > 0 ? 1 : a === b ? 0 : -1));
 };
 
 /**
@@ -295,20 +299,20 @@ methods.toStr = function () {
  * Converts all array items to number
  */
 methods.toNum = function (base = 10) {
-  return this.map((item) => parseInt(item, base));
+  return this.map((item) => parseFloat(item, base));
 };
 
 /**
  * Filters array to only even indexes
  */
-methods.even = function () {
+methods.evenIndexes = function () {
   return this.filter((n, i) => i % 2 === 0);
 };
 
 /**
  * Filters array to only odd indexes
  */
-methods.odd = function () {
+methods.oddIndexes = function () {
   return this.filter((n, i) => i % 2 !== 0);
 };
 

@@ -1,6 +1,6 @@
 # Array Friend
 
-A lightweight module to enhance JavaScript's array functionality.
+A lightweight dependancy free module to enhance JavaScript's array functionality.
 
 ```
 npm i arrayfriend
@@ -51,11 +51,24 @@ const choices = [10, 20, 30, 40, 50];
 choices.shuffle(); // [30, 50, 10, 40, 20]
 ```
 
+## Chaining
+
+All ArrayFriend methods that return arrays will return a new instance of Arrayfriend, so standard JS Array methods, as well as ArrayFriend methods can be chained.
+
+```js
+require("arrayfriend").protos();
+
+const grades = ["80", "60", "76", "100", "58", "96", "92", "62", "78", "84"];
+
+const sortedPassingGrades = grades
+  .toNum() // ARRAYFRIEND METHOD
+  .filter((score) => score > 72) // STANDARD ARRAY METHOD
+  .descending(); // ARRAYFRIEND METHOD
+
+console.log(sortedPassingGrades); // Expected: [100, 96, 92, 84, 80, 78, 76]
+```
+
 ## ArrayFriend Methods
-
-NOTE: The examples for these methods utilize the `.protos()` functionality to expose the methods to all arrays, though this functionality can also be accomplished using the ArrayFriend wrapper.
-
-### ArrayFriend Methods
 
 ##### Useful Methods
 
@@ -116,8 +129,8 @@ NOTE: The examples for these methods utilize the `.protos()` functionality to ex
 
 ##### Filtering
 
-- [Even](#even)
-- [Odd](#odd)
+- [Even Indexes](#even-indexes)
+- [Odd Indexes](#odd-indexes)
 - [Remove Null Values](#remove-null-values)
 - [Remove Falsy Values](#remove-falsy-values)
 
@@ -141,7 +154,7 @@ NOTE: The examples for these methods utilize the `.protos()` functionality to ex
 const $ = require("arrayfriend");
 
 const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const unsuffled = $(...options); // Use the spread operator to pass in an existing array
+const unshuffled = $(...options); // Use the spread operator to pass in an existing array
 const shuffled = unshuffled.shuffle(); // Expected: array in randomized order, like [8,3,4,2,10,5,1,9,6,7]
 ```
 
@@ -497,8 +510,6 @@ const bestToWorst = grades.descending(); // Expected: [100, 100, 99, 98, 94, 93,
 
 ```js
 const $ = require("arrayfriend");
-
-require("arrayfriend").protos();
 
 const arr1 = $();
 const arr2 = $("foo", "bar", "baz");
@@ -1038,24 +1049,79 @@ const strArr = mixed.toStr(); // ['1','4','t','["nested",8]','{"foo":"bar"}','{"
 
 ### To Num
 
-###### beta
+`.toNum()` returns a new array with all items converted to numbers.
 
-`.toNum()`
-_Documentation Pending_
+##### Parameters
 
-### Even
+`base` - Base to parse numbers to. _(Defaults to 10)_
 
-###### beta
+##### Examples
 
-`.even()`
-_Documentation Pending_
+###### ArrayFriend Wrapper
 
-### Odd
+```js
+const $ = require("arrayfriend");
 
-###### beta
+const arr = ["1", 4, "3.2", "7", "19", 0];
+$(...arr).toNum(); // Expected: [1, 4, 3.2, 7, 19, 0]
+```
 
-`.odd()`
-_Documentation Pending_
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const arr = ["1", 4, "3.2", "7", "19", 0];
+arr.toNum(); // Expected: [1, 4, 3.2, 7, 19, 0]
+```
+
+### Even Indexes
+
+`.evenIndexes()` returns only the _even_ index items in an array
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr = ["foo", "bar", "baz", "foobar"];
+$(...arr).evenIndexes(); // Expected: ["foo", "baz"]
+```
+
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const arr = ["foo", "bar", "baz", "foobar"];
+arr.evenIndexes(); // Expected: ["foo", "baz"]
+```
+
+### Odd Indexes
+
+`.oddIndexes()` returns only the _odd_ index items in an array
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+```js
+const $ = require("arrayfriend");
+
+const arr = ["foo", "bar", "baz", "foobar"];
+$(...arr).oddIndexes(); // Expected: ["bar", "foobar"]
+```
+
+###### Extending Prototype
+
+```js
+require("arrayfriend").protos();
+
+const arr = ["foo", "bar", "baz", "foobar"];
+arr.oddIndexes(); // Expected: ["bar", "foobar"]
+```
 
 ### Assert
 
@@ -1095,11 +1161,88 @@ const a4 = [{ foo: "bar", bar: 4, baz: false }, [4, 3, 2, 1], "f", 0, true, "i"]
 a3.assert(a4); // Expected: false
 ```
 
-_Documentation Pending_
-
 ### To Object
 
-###### beta
+`.toObject()` converts an array to an object, with specified keys and values for each item
 
-`.toObject()`
-_Documentation Pending_
+##### Parameters
+
+- `cb` - **OPTIONAL** - Callback function called for each item in the array. **Must return an object with a `key` key and a `value` key** _Note: Callback function is optional. It is not needed if every item in the array is an object with a `key` key and `value` key._
+  **Callback Parameters**
+  - Array item
+  - Item Index
+  - Array
+
+##### Examples
+
+###### ArrayFriend Wrapper
+
+**Example 1: With Callback Function**
+
+```js
+const $ = require("arrayfriend");
+
+const data = [
+  { id: "abc123", score: 97 },
+  { id: "def456", score: 82 },
+  { id: "hij789", score: 90 },
+  { id: "klm012", score: 78 },
+];
+
+// Expected: { abc123: 97, def456: 82, hij789: 90, klm012: 78 }
+const scores = $(...data).toObject((item) => ({ key: item.id, value: item.score }));
+```
+
+**Example 2: Without Callback Function**
+
+```js
+const $ = require("arrayfriend");
+
+// If array is already in [{ key, value }] format
+// No callback function is required to convert to an object
+const houseAttributes = [
+  { key: "sqFt", value: 2000 },
+  { key: "yearBuilt", value: 1998 },
+  { key: "bedrooms", value: 4 },
+  { key: "bathrooms", value: 2.5 },
+];
+
+// Expected: { sqFt: 2000, yearBuilt: 1998, bedrooms: 4, bathrooms: 2.5 }
+const home = $(...houseAttributes).toObject();
+```
+
+###### Extending Prototype
+
+**Example 1: With Callback Function**
+
+```js
+const $ = require("arrayfriend").protos();
+
+const data = [
+  { id: "abc123", score: 97 },
+  { id: "def456", score: 82 },
+  { id: "hij789", score: 90 },
+  { id: "klm012", score: 78 },
+];
+
+// Expected: { abc123: 97, def456: 82, hij789: 90, klm012: 78 }
+const scores = data.toObject((item) => ({ key: item.id, value: item.score }));
+```
+
+**Example 2: Without Callback Function**
+
+```js
+const $ = require("arrayfriend");
+
+// If array is already in [{ key, value }] format
+// No callback function is required to convert to an object
+const houseAttributes = [
+  { key: "sqFt", value: 2000 },
+  { key: "yearBuilt", value: 1998 },
+  { key: "bedrooms", value: 4 },
+  { key: "bathrooms", value: 2.5 },
+];
+
+// Expected: { sqFt: 2000, yearBuilt: 1998, bedrooms: 4, bathrooms: 2.5 }
+const home = houseAttributes.toObject();
+```

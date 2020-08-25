@@ -1,11 +1,15 @@
 {
   "name": "arrayfriend",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Extended array methods",
   "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/justinkunz/ArrayFriend"
+  },
+  "scripts": {
+    "sync": "node scripts/syncMethods.js",
+    "buildTests": "node scripts/buildTests.js"
   },
   "keywords": [
     "array",

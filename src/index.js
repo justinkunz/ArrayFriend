@@ -33,8 +33,8 @@ ArrayFriend.prototype.filterType = methods.filterType;
 ArrayFriend.prototype.types = methods.types;
 ArrayFriend.prototype.toStr = methods.toStr;
 ArrayFriend.prototype.toNum = methods.toNum;
-ArrayFriend.prototype.even = methods.even;
-ArrayFriend.prototype.odd = methods.odd;
+ArrayFriend.prototype.evenIndexes = methods.evenIndexes;
+ArrayFriend.prototype.oddIndexes = methods.oddIndexes;
 ArrayFriend.prototype.assert = methods.assert;
 ArrayFriend.prototype.toObject = methods.toObject;
 
@@ -73,8 +73,8 @@ arrayFriend.protos = () => {
   Array.prototype.types = methods.types;
   Array.prototype.toStr = methods.toStr;
   Array.prototype.toNum = methods.toNum;
-  Array.prototype.even = methods.even;
-  Array.prototype.odd = methods.odd;
+  Array.prototype.evenIndexes = methods.evenIndexes;
+  Array.prototype.oddIndexes = methods.oddIndexes;
   Array.prototype.assert = methods.assert;
   Array.prototype.toObject = methods.toObject;
 };
